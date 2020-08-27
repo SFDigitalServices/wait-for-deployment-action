@@ -18,7 +18,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: SFDigitalServices/wait-for-deployment-action@master
+      - uses: SFDigitalServices/wait-for-deployment-action@v1
         id: deployment
         with:
           token: ${{ github.token }}
