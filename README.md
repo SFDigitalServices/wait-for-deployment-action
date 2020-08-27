@@ -43,9 +43,12 @@ every push to the `Preview` environment, and pushes to the default branch to
 The number of seconds after which to give up with an error. Default: 30.
 
 ### `interval`
-The number of seconds to wait between polls to the deployments API. Default: 5
+The number of seconds to wait between polls to the deployments API. Default: 5.
 
 ## Outputs
 
 ### `url`
-This is the target URL of the deployment, if found.
+The target URL of the deployment, if found.
+
+### `id`
+The id of the deployment.
