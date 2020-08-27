@@ -24,7 +24,7 @@ jobs:
           token: ${{ github.token }}
           environment: Preview
 
-      - runs: echo "Deployed to: ${{ steps.deployment.outputs.url }}"
+      - run: echo "Deployed to: ${{ steps.deployment.outputs.url }}"
 ```
 
 ## Inputs
