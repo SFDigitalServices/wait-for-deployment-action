@@ -9,6 +9,12 @@ inputs:
     required: true
   environment:
     description: The deployment environment to wait for
+  timeout:
+    description: The number of seconds after which to fail if no deployment is found.
+    default: 30
+  interval:
+    description: The number of seconds to wait between repeated checks for deployments.
+    default: 5
 
 outputs:
   url:
