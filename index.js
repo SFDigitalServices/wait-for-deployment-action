@@ -3,7 +3,9 @@ const github = require('@actions/github')
 
 const options = {
   token: core.getInput('github-token'),
-  environment: core.getInput('environment')
+  environment: core.getInput('environment'),
+  timeout: core.getInput('timeout'),
+  interval: core.getInput('interval')
 }
 
 waitForDeployment(options)
@@ -18,10 +20,11 @@ waitForDeployment(options)
 async function waitForDeployment (options) {
   const {
     token,
-    timeout = 300, // seconds
-    delay = 200, // milliseconds
+    interval,
     environment
   } = options
+
+  const timeout = parseInt(options.timeout) || 30
 
   const { sha } = github.context
   const octokit = github.getOctokit(token)
@@ -63,7 +66,7 @@ async function waitForDeployment (options) {
         core.info(`No statuses with state === "success": "${statuses.map(status => status.state).join('", "')}"`)
       }
 
-      await sleep(delay)
+      await sleep(interval)
     }
 
     const elapsed = (Date.now() - start) / 1000
@@ -73,6 +76,7 @@ async function waitForDeployment (options) {
   }
 }
 
-function sleep (ms) {
+function sleep (seconds) {
+  const ms = parseInt(seconds) / 1000 || 1
   return new Promise(resolve => setTimeout(resolve, ms))
 }
