@@ -2,6 +2,8 @@ name: Wait for deployment
 description: |
   Block until a deployment is finished for the pushed commit,
   and get the URL for running any further tests.
+icon: clock
+color: black
 
 inputs:
   github-token:
