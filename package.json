@@ -6,5 +6,8 @@
   "dependencies": {
     "@actions/core": "^1.2.5",
     "@actions/github": "^4.0.0"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
   }
 }
