@@ -24,6 +24,7 @@ async function waitForDeployment (options) {
     environment
   } = options
 
+  const waitGroup = 'Waiting...'
   const timeout = parseInt(options.timeout) || 30
 
   const { sha } = github.context
@@ -36,27 +37,33 @@ async function waitForDeployment (options) {
     sha
   }
 
-  core.info(`Deployment params: ${JSON.stringify(params, null, 2)}`)
+  core.info(`Deployment parameters: ${JSON.stringify(params, null, 2)}`)
   // throw new Error('DERP')
 
+  core.startGroup(waitGroup)
   while (true) {
     const { data: deployments } = await octokit.repos.listDeployments(params)
-    core.info(`Found ${deployments.length} deployments...`)
+    let n = deployments.length
+    core.info(`Found ${n} deployment${n === 1 ? '' : 's'}...`)
 
     for (const deployment of deployments) {
-      core.info(`\tgetting statuses for deployment ${deployment.id}...`)
+      core.info(`  getting statuses for deployment ${deployment.id}...`)
 
       const { data: statuses } = await octokit.request('GET /repos/:owner/:repo/deployments/:deployment/statuses', {
         ...github.context.repo,
         deployment: deployment.id
       })
 
-      core.info(`\tfound ${statuses.length} statuses`)
+      n = statuses.length
+      core.info(`  found ${n} status${n === 1 ? '' : 'es'}`)
 
       const [success] = statuses
         .filter(status => status.state === 'success')
       if (success) {
-        core.info(`\tsuccess! ${JSON.stringify(success, null, 2)}`)
+        core.endGroup(waitGroup)
+        core.group('Deployment payload', () => {
+          core.info(JSON.stringify(success, null, 2)})
+        })
         return {
           deployment,
           status: success,
