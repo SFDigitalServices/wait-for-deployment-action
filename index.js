@@ -62,7 +62,7 @@ async function waitForDeployment (options) {
       if (success) {
         core.endGroup(waitGroup)
         core.group('Deployment payload', () => {
-          core.info(JSON.stringify(success, null, 2)})
+          core.info(JSON.stringify(success, null, 2))
         })
         return {
           deployment,
