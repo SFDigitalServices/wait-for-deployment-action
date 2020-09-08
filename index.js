@@ -77,6 +77,6 @@ async function waitForDeployment (options) {
 }
 
 function sleep (seconds) {
-  const ms = parseInt(seconds) / 1000 || 1
+  const ms = parseInt(seconds) * 1000 || 1
   return new Promise(resolve => setTimeout(resolve, ms))
 }
