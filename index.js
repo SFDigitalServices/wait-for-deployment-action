@@ -57,10 +57,15 @@ async function waitForDeployment (options) {
         .filter(status => status.state === 'success')
       if (success) {
         core.info(`\tsuccess! ${JSON.stringify(success, null, 2)}`)
+        let url = success.target_url
+        const { payload = {} } = deployment
+        if (payload.web_url) {
+          url = payload.web_url
+        }
         return {
           deployment,
           status: success,
-          url: success.target_url
+          url
         }
       } else {
         core.info(`No statuses with state === "success": "${statuses.map(status => status.state).join('", "')}"`)
